@@ -15,7 +15,7 @@ import torch.utils.data as data
 import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 import models.cifar as models
-from moving import Moving, rand_bbox
+from cyclicshift import CyclicShift, rand_bbox
 import numpy as np
 from utils import Bar, Logger, AverageMeter, accuracy, mkdir_p, savefig
 
@@ -113,7 +113,7 @@ def main():
     # Data
     print('==> Preparing dataset %s' % args.dataset)
     transform_train = transforms.Compose([
-        Moving(args.p),
+        CyclicShift(args.p),
         transforms.RandomCrop(32, padding=4),
         transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),

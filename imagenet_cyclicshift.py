@@ -18,7 +18,7 @@ import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 import torchvision.models as models
 import models.imagenet as customized_models
-from moving import Moving
+from cyclicshift import CyclicShift
 
 
 from utils import Bar, Logger, AverageMeter, accuracy, mkdir_p, savefig
@@ -129,7 +129,7 @@ def main():
 
     train_loader = torch.utils.data.DataLoader(
         datasets.ImageFolder(traindir, transforms.Compose([
-            Moving(args.p),
+            CyclicShift(args.p),
             transforms.RandomSizedCrop(224),
             transforms.RandomHorizontalFlip(),
             transforms.ToTensor(),

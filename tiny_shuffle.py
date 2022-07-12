@@ -18,8 +18,7 @@ import torchvision.datasets as datasets
 import models.cifar as models
 from torch.nn import functional as F
 import numpy as np
-from moving import Moving
-from moving import rand_bbox
+from cyclicshift import CyclicShift, rand_bbox
 from utils.shuffle import Shuffle
 
 from utils import Bar, Logger, AverageMeter, accuracy, mkdir_p, savefig
@@ -121,7 +120,6 @@ def main():
     
     train_loader = torch.utils.data.DataLoader(
         datasets.ImageFolder(traindir, transforms.Compose([
-            #Moving(0.5),
             transforms.RandomCrop(64, padding=8),
             transforms.RandomHorizontalFlip(),
             transforms.ToTensor(),

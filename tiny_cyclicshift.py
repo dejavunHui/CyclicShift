@@ -18,9 +18,7 @@ import torchvision.datasets as datasets
 import models.cifar as models
 from torch.nn import functional as F
 import numpy as np
-from moving import Moving
-from moving import rand_bbox
-from inter import InterCat
+from .cyclicshift import CyclicShift, rand_bbox
 
 from utils import Bar, Logger, AverageMeter, accuracy, mkdir_p, savefig
 
@@ -123,7 +121,7 @@ def main():
     
     train_loader = torch.utils.data.DataLoader(
         datasets.ImageFolder(traindir, transforms.Compose([
-            Moving(args.p),
+            CyclicShift(args.p),
             transforms.RandomCrop(64, padding=8),
             transforms.RandomHorizontalFlip(),
             transforms.ToTensor(),
@@ -201,7 +199,7 @@ def main():
 
     if args.evaluate:
         print('\nEvaluation only')
-        test_loss, test_acc = test(testloader, model, criterion, start_epoch, use_cuda)
+        test_loss, test_acc = test(val_loader, model, criterion, start_epoch, use_cuda)
         print(' Test Loss:  %.8f, Test Acc:  %.2f' % (test_loss, test_acc))
         return
 
